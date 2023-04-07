@@ -12,6 +12,7 @@ interface ServerToClientEvents {
 interface Data {
     message: String;
     room: String;
+    type?: String;
 }
 interface ClientToServerEvents {
     send_message: (data: Data) => void;
@@ -31,18 +32,23 @@ const Chat = () => {
 
 
     const handleReceiveMessage = (data: Data) => {
-        alert(data.message)
-        setMessages((prevMessages) => [...prevMessages, data]);
+        console.log(data)
+        data.type = "r"
+        setMessages((prevMessages) => [...prevMessages, { ...data }]);
     };
 
     const sendMessage = () => {
-        if (room !== "") {
-            socket.emit("send_message", { message: value, room })
-        } else {
-            alert("Enter Room No First")
+        if (value !== "") {
+            if (room !== "") {
+                setMessages((prevMessages) => [...prevMessages, { message: value, room }]);
+                socket.emit("send_message", { message: value, room })
+            } else {
+                alert("Enter Room No First")
+            }
+            setValue("")
         }
-
     }
+
 
     const handleRoom = () => {
         socket.emit("join_room", room)
@@ -50,103 +56,57 @@ const Chat = () => {
 
     useEffect(() => {
         socket.on("receive_message", handleReceiveMessage)
+        return () => {
+            socket.off("receive_message", handleReceiveMessage)
+        }
     }, [socket])
 
     return (
         <div className="flex flex-col items-center justify-center w-screen min-h-screen bg-gray-100 text-gray-800 p-10">
-            {/* <input placeholder='Enter Random Number' onChange={(e) => setRoom(e.target.value)} />
+            <input placeholder='Enter Random Number' onChange={(e) => setRoom(e.target.value)} />
             <button onClick={handleRoom}>Join Room</button>
-            <input placeholder='Message...' onChange={(e) => setValue(e.target.value)} />
-            <button onClick={sendMessage}>Send</button> */}
-
-
             <div className="flex flex-col flex-grow w-full max-w-xl bg-white shadow-xl rounded-lg overflow-hidden">
                 <div className="flex flex-col flex-grow h-0 p-4 overflow-auto">
-                    <div className="flex w-full mt-2 space-x-3 max-w-xs">
-                        <div className="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300"></div>
-                        <div>
-                            <div className="bg-gray-300 p-3 rounded-r-lg rounded-bl-lg">
-                                <p className="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                            </div>
-                            <span className="text-xs text-gray-500 leading-none">2 min ago</span>
-                        </div>
-                    </div>
-                    <div className="flex w-full mt-2 space-x-3 max-w-xs ml-auto justify-end">
-                        <div>
-                            <div className="bg-blue-600 text-white p-3 rounded-l-lg rounded-br-lg">
-                                <p className="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</p>
-                            </div>
-                            <span className="text-xs text-gray-500 leading-none">2 min ago</span>
-                        </div>
-                        <div className="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300"></div>
-                    </div>
-                    <div className="flex w-full mt-2 space-x-3 max-w-xs ml-auto justify-end">
-                        <div>
-                            <div className="bg-blue-600 text-white p-3 rounded-l-lg rounded-br-lg">
-                                <p className="text-sm">Lorem ipsum dolor sit amet.</p>
-                            </div>
-                            <span className="text-xs text-gray-500 leading-none">2 min ago</span>
-                        </div>
-                        <div className="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300"></div>
-                    </div>
-                    <div className="flex w-full mt-2 space-x-3 max-w-xs">
-                        <div className="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300"></div>
-                        <div>
-                            <div className="bg-gray-300 p-3 rounded-r-lg rounded-bl-lg">
-                                <p className="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-                            </div>
-                            <span className="text-xs text-gray-500 leading-none">2 min ago</span>
-                        </div>
-                    </div>
-                    <div className="flex w-full mt-2 space-x-3 max-w-xs ml-auto justify-end">
-                        <div>
-                            <div className="bg-blue-600 text-white p-3 rounded-l-lg rounded-br-lg">
-                                <p className="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-                            </div>
-                            <span className="text-xs text-gray-500 leading-none">2 min ago</span>
-                        </div>
-                        <div className="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300"></div>
-                    </div>
-                    <div className="flex w-full mt-2 space-x-3 max-w-xs ml-auto justify-end">
-                        <div>
-                            <div className="bg-blue-600 text-white p-3 rounded-l-lg rounded-br-lg">
-                                <p className="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
-                            </div>
-                            <span className="text-xs text-gray-500 leading-none">2 min ago</span>
-                        </div>
-                        <div className="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300"></div>
-                    </div>
-                    <div className="flex w-full mt-2 space-x-3 max-w-xs ml-auto justify-end">
-                        <div>
-                            <div className="bg-blue-600 text-white p-3 rounded-l-lg rounded-br-lg">
-                                <p className="text-sm">Lorem ipsum dolor sit amet.</p>
-                            </div>
-                            <span className="text-xs text-gray-500 leading-none">2 min ago</span>
-                        </div>
-                        <div className="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300"></div>
-                    </div>
-                    <div className="flex w-full mt-2 space-x-3 max-w-xs">
-                        <div className="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300"></div>
-                        <div>
-                            <div className="bg-gray-300 p-3 rounded-r-lg rounded-bl-lg">
-                                <p className="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-                            </div>
-                            <span className="text-xs text-gray-500 leading-none">2 min ago</span>
-                        </div>
-                    </div>
-                    <div className="flex w-full mt-2 space-x-3 max-w-xs ml-auto justify-end">
-                        <div>
-                            <div className="bg-blue-600 text-white p-3 rounded-l-lg rounded-br-lg">
-                                <p className="text-sm">Lorem ipsum dolor sit.</p>
-                            </div>
-                            <span className="text-xs text-gray-500 leading-none">2 min ago</span>
-                        </div>
-                        <div className="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300"></div>
-                    </div>
+
+                    {messages?.map((el) => {
+
+                        if (el?.type !== "r") {
+                            return <>
+                                <div className="flex w-full mt-2 space-x-3 max-w-xs ml-auto justify-end">
+                                    <div>
+                                        <div className="bg-blue-600 text-white p-3 rounded-l-lg rounded-br-lg">
+                                            <p className="text-sm">{el.message}</p>
+                                        </div>
+
+                                    </div>
+                                    <div className="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300"></div>
+                                </div>
+                            </>
+                        } else {
+                            return <>
+                                <div className="flex w-full mt-2 space-x-3 max-w-xs">
+                                    <div className="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300"></div>
+                                    <div>
+                                        <div className="bg-gray-300 p-3 rounded-r-lg rounded-bl-lg">
+                                            <p className="text-sm">{el.message}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </>
+                        }
+                    })}
+
                 </div>
 
-                <div className="bg-gray-300 p-4">
-                    <input className="flex items-center h-10 w-full rounded px-3 text-sm" type="text" placeholder="Type your message…"/>
+                <div className="flex gap-10 bg-gray-300 p-4">
+                    <input value={value} onKeyUp={(e) => {
+
+                        if (e.key === "Enter") {
+                            sendMessage()
+                        }
+
+                    }} onChange={(e) => setValue(e.target.value)} className="flex items-center h-10 w-full rounded px-3 text-sm" type="text" placeholder="Type your message…" />
+                    <button className='bg-blue-500 text-white p-2 rounded' onClick={sendMessage}>Send</button>
                 </div>
             </div>
         </div>
