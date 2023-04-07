@@ -40,7 +40,7 @@ export const Game1 = () => {
         speed: 5
     })
 
-    let [score,setScore]=useState<Number>(0)
+    let [score,setScore]=useState<number>(0)
 
 
    
@@ -51,15 +51,15 @@ export const Game1 = () => {
 
     useEffect(()=>{
        
-
+console.log(score)
        //let ctx:CanvasRenderingContext2D;
        const canvas = canvasRef.current;
        const context = canvas?.getContext("2d");
 
 if(canvas && context){
     const loop=()=>{
-        update(context,canvas);
-        draw(context,canvas);
+        update(context,canvas,score);
+        draw(context,canvas,score);
         requestAnimationFrame(loop);
     }
     
@@ -89,7 +89,7 @@ if(canvas && context){
     
 
         
-function draw(ctx:CanvasRenderingContext2D,canvas:HTMLCanvasElement) {
+function draw(ctx:CanvasRenderingContext2D,canvas:HTMLCanvasElement,score:number) {
     // Clear the canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -108,14 +108,14 @@ function draw(ctx:CanvasRenderingContext2D,canvas:HTMLCanvasElement) {
     ctx.fillText("Score: " + score, 10, 30);
 }
 
-function update(ctx:CanvasRenderingContext2D,canvas:HTMLCanvasElement){
+function update(ctx:CanvasRenderingContext2D,canvas:HTMLCanvasElement,score:number){
     // Move the obstacle
     obstacle.x -= obstacle.speed;
 
     // If the obstacle goes off the screen, reset its position and increase the score
     if (obstacle.x < -obstacle.width) {
         obstacle.x = canvas.width;
-        setScore(score)
+        setScore(score++)
     }
 
     // Check for collision
