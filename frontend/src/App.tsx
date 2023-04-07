@@ -1,14 +1,15 @@
-import React from "react";
-import "./App.css";
-import AllRoutes from "./Components/AllRoutes";
-import Homepage from "./Pages/Homepage";
+
+import React from 'react';
+import logo from './logo.svg';
+import './App.css';
+import Chat from './Components/Chat';
 
 function App() {
   return (
-    <div className="App">
-      <AllRoutes />
-    </div>
-  );
+    <>
+      <Chat />
+    </>
+  )
 }
 
 export default App;
