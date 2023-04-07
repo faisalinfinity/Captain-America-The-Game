@@ -133,8 +133,19 @@ function update(ctx:CanvasRenderingContext2D,canvas:HTMLCanvasElement,score:numb
     if (keys[38]) { // Up arrow
     
         player.y -= player.speed;
-        
+        setTimeout(down,800)
+        keys[40]=false;
     }
+
+
+    
+    function down(){
+        keys[40]=true
+        if (keys[40]) { // Down arrow
+            player.y =350
+        }
+    }
+
     if (keys[40]) { // Down arrow
         player.y += player.speed;
     }
