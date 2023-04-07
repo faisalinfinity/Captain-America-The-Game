@@ -7,6 +7,7 @@ interface ServerToClientEvents {
     basicEmit: (a: number, b: string, c: Buffer) => void;
     withAck: (d: string, callback: (e: number) => void) => void;
     receive_message: (data: Data) => void;
+    receive_scores:(data: Scores) => void
 }
 
 interface Data {
@@ -14,11 +15,15 @@ interface Data {
     room: String;
     type?: String;
 }
+interface Scores{
+    scores:number,
+    room:String
+}
 interface ClientToServerEvents {
     send_message: (data: Data) => void;
     receive_message: (data: Data) => void;
     join_room: (message: string) => void;
-    hello: () => void;
+    send_scores:(data: Scores) => void;
 }
 
 const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io("http://localhost:8080")
@@ -28,11 +33,12 @@ const Chat = () => {
     const [value, setValue] = useState<string>("")
     const [room, setRoom] = useState<string>("")
     const [messages, setMessages] = useState<Data[]>([]);
+    const [scores, setScores] = useState<number>(0)
+    const [p2Scores,setp2Scores]= useState<number>(0)
 
 
 
     const handleReceiveMessage = (data: Data) => {
-        console.log(data)
         data.type = "r"
         setMessages((prevMessages) => [...prevMessages, { ...data }]);
     };
@@ -49,9 +55,27 @@ const Chat = () => {
         }
     }
 
+    const handleReceiveScores=(data:Scores)=>{
+      setp2Scores(data.scores)
+    }
+
+    const sendScores = () => {
+        socket.emit("send_scores", {scores,room})
+    }
+
+    useEffect(()=>{
+       sendScores()
+    },[scores])
+    
 
     const handleRoom = () => {
         socket.emit("join_room", room)
+    }
+    
+    const IncreaseScore=()=>{
+        let id=setInterval(()=>{
+        setScores((p)=>p+1)
+        },500)
     }
 
     useEffect(() => {
@@ -61,8 +85,18 @@ const Chat = () => {
         }
     }, [socket])
 
+    useEffect(() => {
+        socket.on("receive_scores", handleReceiveScores)
+        return () => {
+            socket.off("receive_scores", handleReceiveScores)
+        }
+    },[scores])
+
     return (
         <div className="flex flex-col items-center justify-center w-screen min-h-screen bg-gray-100 text-gray-800 p-10">
+            <h1>My Score :{scores}</h1>
+            <h1>Player 2 Score:{p2Scores}</h1>
+            <button onClick={IncreaseScore}>Increase</button>
             <input placeholder='Enter Random Number' onChange={(e) => setRoom(e.target.value)} />
             <button onClick={handleRoom}>Join Room</button>
             <div className="flex flex-col flex-grow w-full max-w-xl bg-white shadow-xl rounded-lg overflow-hidden">
