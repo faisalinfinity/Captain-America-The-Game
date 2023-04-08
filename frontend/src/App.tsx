@@ -1,15 +1,15 @@
-
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import Chat from './Components/Chat';
+import React from "react";
+import "./App.css";
+import AllRoutes from "./Components/AllRoutes";
+import Navbar from "./Components/Navbar";
 
 function App() {
   return (
     <>
-      <Chat />
+      <Navbar />
+      <AllRoutes />
     </>
-  )
+  );
 }
 
 export default App;
