@@ -7,6 +7,8 @@ interface ServerToClientEvents {
     withAck: (d: string, callback: (e: number) => void) => void;
     receive_message: (data: Data) => void;
     receive_scores: (data: Scores) => void;
+    waitingForPlayer: () => void;
+    gameReady: () => void
 }
 
 interface Data {
@@ -35,6 +37,8 @@ const Chat = () => {
     const [messages, setMessages] = useState<Data[]>([]);
     const [scores, setScores] = useState<number>(0);
     const [p2Scores, setp2Scores] = useState<number>(0);
+    const [gameReady, setgameReady] = useState<boolean>(false)
+
 
     const handleReceiveMessage = (data: Data) => {
         data.type = "r";
@@ -64,6 +68,21 @@ const Chat = () => {
         socket.emit("send_scores", { scores, room });
     };
 
+
+    useEffect(() => {
+        socket.on("waitingForPlayer", () => {
+            console.log("Waiting for other player to join...");
+        });
+
+
+        socket.on("gameReady", () => {
+            console.log("Both players are ready to start the game!");
+            setgameReady(true)
+        });
+
+    }, [socket])
+
+
     useEffect(() => {
         sendScores();
     }, [scores]);
@@ -92,11 +111,17 @@ const Chat = () => {
         };
     }, [scores]);
 
+
     return (
         <div className="flex flex-col items-center justify-center w-screen min-h-screen bg-gray-100 text-gray-800 p-10">
+            <h1>{gameReady ? "Ready to Start" : "Waiting for other Player"}</h1>
             <h1>My Score :{scores}</h1>
             <h1>Player 2 Score:{p2Scores}</h1>
-            <button onClick={IncreaseScore}>Increase</button>
+            <button onClick={() => {
+                if (gameReady) {
+                    IncreaseScore()
+                }
+            }}>Increase</button>
             <input
                 placeholder="Enter Random Number"
                 onChange={(e) => setRoom(e.target.value)}
