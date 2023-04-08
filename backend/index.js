@@ -38,6 +38,14 @@ io.on("connection", (socket) => {
   socket.on("send_scores", (data) => {
     socket.to(data.room).emit("receive_scores", data);
   });
+
+  socket.on("disconnect", () => {
+    const clients = io.sockets.adapter.rooms.get(roomName);
+    if (clients && clients.size === 1) {
+      // Only one player is left in the room, emit playerDisconnected event to the remaining player
+      socket.to(roomName).emit("playerDisconnected");
+    }
+  });
 });
 
 server.listen(8080, () => {
