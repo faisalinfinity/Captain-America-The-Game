@@ -1,14 +1,17 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Homepage from "../Pages/Homepage";
-import Room from "../Pages/Room";
+import CreateRoom from "../Pages/CreateRoom";
+import Chat from "./Chat";
+import JoinRoom from "../Pages/JoinRoom";
 
 const AllRoutes = () => {
   return (
     <div>
       <Routes>
         <Route path="/" element={<Homepage />}></Route>
-        <Route path="/room" element={<Room />}></Route>
+        <Route path="/create" element={<CreateRoom />}></Route>
+        <Route path="/join" element={<JoinRoom />}></Route>
       </Routes>
     </div>
   );
