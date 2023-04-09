@@ -23,7 +23,7 @@ interface ServerToClientEvents {
   receive_scores: (data: Scores) => void;
   waitingForPlayer: () => void;
   gameReady: () => void;
-  playerDisconnected: () => void
+  playerDisconnected: () => void;
 }
 
 interface Data {
@@ -44,15 +44,15 @@ interface ClientToServerEvents {
 
 export const GlobalContext = createContext<GlobalType>({
   value: "",
-  setValue: () => { },
+  setValue: () => {},
   gameReady: false,
   scores: 0,
-  IncreaseScore: () => { },
-  setRoom: () => { },
+  IncreaseScore: () => {},
+  setRoom: () => {},
   p2Scores: 0,
-  handleRoom: () => { },
+  handleRoom: () => {},
   messages: [],
-  sendMessage: () => { },
+  sendMessage: () => {},
 });
 
 const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
@@ -99,7 +99,7 @@ const GlobalContextProvider: React.FC<React.PropsWithChildren<{}>> = ({
   useEffect(() => {
     socket.on("waitingForPlayer", () => {
       console.log("Waiting for other player to join...");
-      setgameReady(false)
+      setgameReady(false);
     });
 
     socket.on("gameReady", () => {
@@ -109,13 +109,13 @@ const GlobalContextProvider: React.FC<React.PropsWithChildren<{}>> = ({
 
     socket.on("playerDisconnected", () => {
       console.log("Other player disconnected");
-      setgameReady(false)
+      setgameReady(false);
       // Show a message to the remaining player that the other player has disconnected
     });
 
     if (socket) {
       socket.on("disconnect", () => {
-        console.log("You disconnected")
+        console.log("You disconnected");
       });
     }
   }, [socket]);
