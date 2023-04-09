@@ -28,22 +28,28 @@ const Homepage = () => {
   return (
     <>
       <div
+      className="bg-gradient-to-br  from-red-700 to-blue-700"
         style={{
           maxHeight: "15%",
-          backgroundImage: `url(${shield})`,
+          
         }}
       >
         <p style={{ color: "white" }}>Player ID: {id}</p>
-        <h1
-          style={{
-            textAlign: "center",
-            color: "white",
-            fontSize: "40px",
-            fontWeight: "bold",
-          }}
-        >
-          Game Name
-        </h1>
+        <div className="text-4xl text-center font-bold">
+          <span className="text-blue-600 animate-pulse">C</span>
+          <span className="text-blue-600 animate-pulse">a</span>
+          <span className="text-blue-600 animate-pulse">p</span>
+          <span className="text-blue-600 animate-pulse">t</span>
+          <span className="text-blue-600 animate-pulse">a</span>
+          <span className="text-blue-600 animate-pulse">i</span>
+          <span className="text-blue-600 animate-pulse">n</span>
+          <span className="text-red-600 animate-pulse">A</span>
+          <span className="text-red-600 animate-pulse">m</span>
+          <span className="text-red-600 animate-pulse">er</span>
+          <span className="text-red-600 animate-pulse">i</span>
+          <span className="text-red-600 animate-pulse">ca</span>
+
+        </div>
         <div
           style={{
             display: "grid",
@@ -88,7 +94,7 @@ const Homepage = () => {
       <div
         style={{
           // display: "flex",
-          backgroundImage: `url(${shield})`,
+          backgroundImage: `url(https://media.tenor.com/phzTPEhdWXMAAAAC/avengers-captain-america.gif)`,
           backgroundSize: "cover",
           opacity: 0.9,
         }}

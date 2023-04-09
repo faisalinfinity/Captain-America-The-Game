@@ -13,7 +13,6 @@ import { Game } from "./Pages/Game.jsx";
 const App= () => {
   return (
     <>
-      <Navbar />
       <AllRoutes />
 
     </>

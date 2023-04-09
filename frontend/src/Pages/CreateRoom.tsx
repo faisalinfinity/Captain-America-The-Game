@@ -17,6 +17,7 @@ const Room = () => {
     for (let i = 0; i < 4; i++) {
       roomID += Math.floor(Math.random() * 9);
     }
+    localStorage.setItem("room",roomID)
     setRoom(roomID);
     handleRoom(roomID)
   }, []);
@@ -49,7 +50,7 @@ const Room = () => {
         </div>
         <div>
           <br />
-          {!gameReady ? (
+          {gameReady ? (
             <button
               onClick={() => navigate("/game")}
               style={{ width: "30%" }}

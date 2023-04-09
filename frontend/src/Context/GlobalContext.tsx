@@ -8,15 +8,16 @@ interface GlobalType {
   gameReady: boolean;
   scores: number;
   IncreaseScore: () => void;
-  setRoom: React.Dispatch<React.SetStateAction<string>>;
+  setRoom: React.Dispatch<React.SetStateAction<string|null>>;
   p2Scores: number;
   handleRoom: (data: string) => void;
   messages: Data[];
   sendMessage: () => void;
   setScores: React.Dispatch<React.SetStateAction<number>>;
-  sendScores: () => void;
+  sendScores: (data:number) => void;
   socket: Socket<ServerToClientEvents, ClientToServerEvents>;
-  room: string
+  room: string|null,
+  setp2Scores:React.Dispatch<React.SetStateAction<number>>
 }
 
 interface ServerToClientEvents {
@@ -31,18 +32,18 @@ interface ServerToClientEvents {
 }
 
 interface Data {
-  message: String;
-  room: String;
+  message: string;
+  room: string |null;
   type?: String;
 }
-interface Scores {
+export interface Scores {
   scores: number;
-  room: String;
+  room: string|null;
 }
 interface ClientToServerEvents {
   send_message: (data: Data) => void;
   receive_message: (data: Data) => void;
-  join_room: (message: string) => void;
+  join_room: (message: string|null) => void;
   send_scores: (data: Scores) => void;
 }
 const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
@@ -61,17 +62,19 @@ export const GlobalContext = createContext<GlobalType>({
   messages: [],
   sendMessage: () => { },
   setScores: () => { },
-  sendScores: () => { },
+  sendScores: (data:number) => { },
   socket: socket,
-  room: ""
+  room: "",
+  setp2Scores:()=>{}
 });
 
 
 const GlobalContextProvider: React.FC<React.PropsWithChildren<{}>> = ({
   children,
 }: React.PropsWithChildren<{}>) => {
+
   const [value, setValue] = useState<string>("");
-  const [room, setRoom] = useState<string>("");
+  let [room, setRoom] = useState<string|null>("");
   const [messages, setMessages] = useState<Data[]>([]);
   const [scores, setScores] = useState<number>(0);
   const [p2Scores, setp2Scores] = useState<number>(0);
@@ -101,7 +104,10 @@ const GlobalContextProvider: React.FC<React.PropsWithChildren<{}>> = ({
     setp2Scores(data.scores);
   };
 
-  const sendScores = () => {
+  const sendScores = (scores:number) => {
+    if(room==""){
+      room=localStorage.getItem("room")
+     }
     socket.emit("send_scores", { scores, room });
   };
 
@@ -130,10 +136,13 @@ const GlobalContextProvider: React.FC<React.PropsWithChildren<{}>> = ({
   }, [socket]);
 
   useEffect(() => {
-    sendScores();
+    sendScores(scores);
   }, [scores]);
 
-  const handleRoom = (room1: string) => {
+  const handleRoom = (room1: string|null) => {
+    if(room1==""){
+     room1=localStorage.getItem("room")
+    }
     socket.emit("join_room", room1);
   };
 
@@ -150,12 +159,12 @@ const GlobalContextProvider: React.FC<React.PropsWithChildren<{}>> = ({
     };
   }, [socket]);
 
-  useEffect(() => {
-    socket.on("receive_scores", handleReceiveScores);
-    return () => {
-      socket.off("receive_scores", handleReceiveScores);
-    };
-  }, [scores]);
+  // useEffect(() => {
+  //   socket.on("receive_scores", handleReceiveScores);
+  //   return () => {
+  //     socket.off("receive_scores", handleReceiveScores);
+  //   };
+  // }, [socket]);
 
 
   return (
@@ -174,7 +183,8 @@ const GlobalContextProvider: React.FC<React.PropsWithChildren<{}>> = ({
         sendMessage,
         sendScores,
         socket,
-        room
+        room,
+        setp2Scores
       }}
     >
       {children}
