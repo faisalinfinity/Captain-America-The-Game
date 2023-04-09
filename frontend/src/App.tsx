@@ -1,10 +1,10 @@
 
-import React, { useRef, useEffect, useState } from "react";
 
-
-import logo from './logo.svg';
-import './App.css';
-import Chat from './Components/Chat';
+import React from "react";
+import "./App.css";
+import AllRoutes from "./Components/AllRoutes";
+import Chat from "./Components/Chat";
+import Navbar from "./Components/Navbar";
 
 
 import cap from "./Components/cap.gif"
@@ -14,14 +14,14 @@ import { Game } from "./Pages/Game.jsx";
 
 const App= () => {
   return (
-    <div className="App">
-      <h1>Rahul Kumar game</h1>
-   
-   <Game/>
+    <>
+      <Navbar />
+      <AllRoutes />
+        <Game/>
 
-     </div>
+      {/* <Chat /> */}
+    </>
   )
-  
 }
 
 export default App;
