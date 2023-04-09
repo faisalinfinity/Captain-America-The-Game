@@ -239,8 +239,8 @@ setInterval(()=>{
     <div id="main-game">
          <div className="h-auto w-full mx-auto p-4 rounded-t-lg bg-gray-100 shadow-lg " style={{backgroundColor:"rgb(1, 0, 9)",color:"white"}}>
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-lg font-bold text-gray-800">Player 1: <span ref={scoreRef}>0</span></h2>
-            <h2 className="text-lg font-bold text-gray-800">Player 2:{p2}</h2>
+            <h2 className="text-lg font-bold text-white-800">Player 1: <span ref={scoreRef}>0</span></h2>
+            <h2 className="text-lg font-bold text-white-800">Player 2:{p2}</h2>
           </div>
           <div className="flex justify-center gap-10 mb-4">
             <button
