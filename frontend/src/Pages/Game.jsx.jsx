@@ -1,18 +1,20 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import cap from "../Images/cap.gif";
 import "./js.css";
-import lost from "../Images/lost.png";
+
 import fire from "../Images/fire.gif";
-import capst from "../Images/capst.png";
+
 import jump from "../Images/jump.png";
 import Chat from "../Components/Chat";
 import { GlobalContext } from "../Context/GlobalContext";
 import capst1 from "../Images/cap-st.png"
-import lostimg from "../Images/lostimg.png"
+
 import lost1 from "../Images/imgd.png"
 import cap1 from "../Images/cap1.webp"
 import back1 from "../Images/giphy.webp"
 import gif from "../Images/gif-still.jpg"
+import obs1 from "../Images/obs.gif"
+import robo from "../Images/robo.gif"
 
 
 export const Game = () => {
@@ -95,9 +97,12 @@ const [p2,setp2]=useState(0)
         setback(gif)
         console.log(end)
         setEnd(false)
+        let s1= localStorage.getItem("score1")
+        let s2= localStorage.getItem("score2")
+     
 
         setTimeout(()=>{
-          alert(`Score1:${scores} ,"Scores2:${p2}`);
+          alert(`Score1:${+s1+1} ,"Scores2:${+s2+1}`);
           window.location.reload()
         },1000)
        
@@ -167,6 +172,7 @@ const [p2,setp2]=useState(0)
     setImgSrc(cap);
     setAnim("mymove 10s infinite");
     IncreaseScore()
+    obs()
   }
 
 
@@ -195,8 +201,8 @@ const [p2,setp2]=useState(0)
   const handleReceiveScores = (data) => {
     setp2(data.scores);
     setp2Scores(data.scores)
-    if( p2!==0){
-        localStorage.setItem("score2",p2)
+    if( data.scores!==0){
+        localStorage.setItem("score2",data.scores)
     }
   };
   useEffect(() => {
@@ -210,12 +216,28 @@ const [p2,setp2]=useState(0)
 
 
 
+const fire1= useRef()
 
+let arr=[fire,robo,obs1]
+
+function obs(){
+
+setInterval(()=>{
+  let i=1;
+  console.log(i)
+  if(i===3){
+    fire1.current.src=fire;
+    i=1;
+  }
+  fire1.current.src=arr[i]
+  i++;
+},10000)
+}
   
  //className="flex justify-between"
   return (
-    <div>
-         <div className="h-auto w-full mx-auto p-4 rounded-t-lg bg-gray-100 shadow-lg ">
+    <div id="main-game">
+         <div className="h-auto w-full mx-auto p-4 rounded-t-lg bg-gray-100 shadow-lg " style={{backgroundColor:"rgb(1, 0, 9)",color:"white"}}>
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-lg font-bold text-gray-800">Player 1: <span ref={scoreRef}>0</span></h2>
             <h2 className="text-lg font-bold text-gray-800">Player 2:{p2}</h2>
@@ -276,7 +298,7 @@ const [p2,setp2]=useState(0)
             }}
             ref={div2Ref}
           >
-            <img width="120%" src={fire} alt="" />
+            <img width="120%" src={fire} alt="" ref={fire1} />
           </div>
         </div>
         {/* <button onClick={Onstart}>Start Game</button> */}
