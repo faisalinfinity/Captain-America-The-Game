@@ -29,6 +29,8 @@ export const Game = () => {
 
   const img = useRef();
 
+
+
   //   for (const key in div1Rect) {
   //     if (typeof div1Rect[key] !== "function") {
   //      // let para = document.createElement("img");
@@ -144,7 +146,7 @@ export const Game = () => {
             width: "10%",
             height: "100px",
             marginLeft: `${marginL}px`,
-            border: "0px solid black",
+            border: "1px solid black",
             marginTop: marginB,
           }}
           id="div5"
@@ -154,8 +156,8 @@ export const Game = () => {
         </div>
         <div
           style={{
-            width: "10%",
-            border: "0px solid black",
+            width: "7%",
+            border: "1px solid black",
             animation: anim,
             position: "relative",
             height: "70px",

@@ -17,7 +17,7 @@ const App= () => {
     <>
       <Navbar />
       <AllRoutes />
-        <Game/>
+        
 
       {/* <Chat /> */}
     </>
