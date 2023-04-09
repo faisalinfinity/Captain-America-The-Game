@@ -1,7 +1,11 @@
 #game-main{
+
+    width:70%;
+
     background-image: url("https://media1.giphy.com/media/U7huVmA3TKuqvznInJ/giphy.gif");
-    background-repeat: no-repeat;
+
     background-size: 50%;
+    background-position-y: bottom;
     height: 400px;
 }
 
