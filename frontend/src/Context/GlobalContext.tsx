@@ -13,6 +13,9 @@ interface GlobalType {
   handleRoom: () => void;
   messages: Data[];
   sendMessage: () => void;
+  setScores: React.Dispatch<React.SetStateAction<number>>;
+  sendScores:()=>void;
+  socket: Socket<ServerToClientEvents, ClientToServerEvents>
 }
 
 interface ServerToClientEvents {
@@ -41,6 +44,9 @@ interface ClientToServerEvents {
   join_room: (message: string) => void;
   send_scores: (data: Scores) => void;
 }
+const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
+  "http://localhost:8080"
+);
 
 export const GlobalContext = createContext<GlobalType>({
   value: "",
@@ -53,11 +59,12 @@ export const GlobalContext = createContext<GlobalType>({
   handleRoom: () => { },
   messages: [],
   sendMessage: () => { },
+  setScores:()=>{},
+  sendScores:()=>{},
+  socket:socket
 });
 
-const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
-  "http://localhost:8080"
-);
+
 const GlobalContextProvider: React.FC<React.PropsWithChildren<{}>> = ({
   children,
 }: React.PropsWithChildren<{}>) => {
@@ -148,6 +155,7 @@ const GlobalContextProvider: React.FC<React.PropsWithChildren<{}>> = ({
     };
   }, [scores]);
 
+
   return (
     <GlobalContext.Provider
       value={{
@@ -156,11 +164,14 @@ const GlobalContextProvider: React.FC<React.PropsWithChildren<{}>> = ({
         gameReady,
         scores,
         IncreaseScore,
+        setScores,
         setRoom,
         p2Scores,
         handleRoom,
         messages,
         sendMessage,
+        sendScores,
+        socket
       }}
     >
       {children}

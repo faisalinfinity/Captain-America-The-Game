@@ -10,9 +10,6 @@ function App() {
       <Navbar />
       <AllRoutes />
 
-      <Chat />
-     
-
     </>
   );
 }
