@@ -1,6 +1,11 @@
 import React from "react";
 import { GlobalContext } from "../Context/GlobalContext";
-const Chat = () => {
+
+interface chat1 {
+ chat:boolean
+}
+
+const Chat = ({chat}:chat1) => {
   const {
     value,
     setValue,
@@ -15,8 +20,10 @@ const Chat = () => {
     sendMessage,
     room
   } = React.useContext(GlobalContext);
+
+
   return (
-    <div className="flex flex-col items-center  border-2 justify-end w-auto min-h-screen bg-gray-100 text-gray-800 ">
+    <div className="flex flex-col items-center  border-2 justify-end w-auto min-h-1/2 bg-gray-100 text-gray-800 " style={{display: chat ? "flex" : "none"}} >
       {/* <h1>{gameReady ? "Ready to Start" : "Waiting for other Player"}</h1>
       <h1>My Score :{scores}</h1>
       <h1>Player 2 Score:{p2Scores}</h1>
