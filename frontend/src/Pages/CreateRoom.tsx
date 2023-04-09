@@ -3,15 +3,14 @@ import { GlobalContext } from "../Context/GlobalContext";
 import shield from "../Images/shield.jpeg";
 
 const Room = () => {
-  // const [isCreated, setIsCreated] = useState<boolean>(true);
   const { gameReady, setRoom } = useContext(GlobalContext);
-  // const [ready, setReady] = useState<boolean>();
+  // const [ready, setReady] = useState<boolean>(false);
   let roomID = "";
+  for (let i = 0; i < 4; i++) {
+    roomID += Math.floor(Math.random() * 9);
+  }
 
   useEffect(() => {
-    for (let i = 0; i < 4; i++) {
-      roomID += Math.floor(Math.random() * 9);
-    }
     // if (gameReady) {
     //   setReady(true);
     // }
@@ -37,8 +36,12 @@ const Room = () => {
 
       <div style={{ width: "50%" }}>
         <div style={{ margin: "15% 0 0 0" }}>
-          <h3 style={{ fontWeight: "bold", fontSize: "30px" }}>Room Details</h3>
-          <p>Room ID : {roomID}</p>
+          <h3 style={{ fontWeight: "bold", fontSize: "30px" }}>
+            <u>Room Details</u>
+          </h3>
+          <p>
+            Room ID : <b>{roomID}</b>
+          </p>
         </div>
         <div>
           {gameReady ? (

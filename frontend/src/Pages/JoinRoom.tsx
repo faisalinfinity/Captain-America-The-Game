@@ -4,7 +4,7 @@ import shield from "../Images/shield.jpeg";
 
 const JoinRoom = () => {
   const [roomID, setRoomID] = useState<string>("");
-  const { setRoom } = useContext(GlobalContext);
+  const { setRoom, gameReady } = useContext(GlobalContext);
 
   if (roomID.length == 4) {
     setRoom(roomID);
@@ -34,15 +34,20 @@ const JoinRoom = () => {
             onChange={(e) => setRoomID(e.target.value)}
             placeholder="enter room-ID"
           />
+          <button className="bg-blue-400 hover:bg-red-700 text-white font-bold py-1 px-2 rounded-full">
+            Join Room
+          </button>
           <br />
           <br />
-          {roomID.length > 0 ? (
-            <button
-              style={{ width: "100%" }}
-              className="bg-blue-400 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full"
-            >
-              Start Game
-            </button>
+          {gameReady ? (
+            <>
+              <button
+                style={{ width: "100%" }}
+                className="bg-blue-400 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full"
+              >
+                Start Game
+              </button>
+            </>
           ) : null}
         </div>
       </div>
