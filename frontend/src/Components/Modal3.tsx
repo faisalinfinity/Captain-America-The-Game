@@ -17,7 +17,7 @@ const Modal3: FC<ModalProps> = ({ open, onClose,res,score1,score2 }) => {
     <div
       onClick={onClose}
       className={`fixed inset-0 flex justify-center items-center transition-colors ${
-        open ? 'visible bg-black/20' : 'invisible'
+        open ? 'visible bg-black/80' : 'invisible'
       }`}
     >
       <div onClick={(e)=>e.stopPropagation()} className={`${res? `bg-[url('https://media3.giphy.com/media/xULW8CPwOHXPua8NTa/giphy.gif?cid=6c09b952443dae5e32cb2c06785e4b487ea9d3f23d4ba6d6&rid=giphy.gif&ct=g')]`:`bg-[url('https://thumbs.gfycat.com/ImpossibleQuickBarnacle-max-1mb.gif')]`}  rounded-xl  shadow p-60  transition-all

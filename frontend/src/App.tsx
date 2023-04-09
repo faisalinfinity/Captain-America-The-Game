@@ -14,7 +14,7 @@ import Modal3 from "./Components/Modal3";
 
 const App= () => {
   const [open,setOpen]=useState(false)
-  const [result,setResult]=useState(true)
+  const [result,setResult]=useState(false)
   return (
     <>
       <AllRoutes />

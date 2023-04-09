@@ -13,6 +13,7 @@ import lost1 from "../Images/imgd.png"
 import cap1 from "../Images/cap1.webp"
 import back1 from "../Images/giphy.webp"
 import gif from "../Images/gif-still.jpg"
+import Modal3 from "../Components/Modal3";
 
 
 export const Game = () => {
@@ -56,7 +57,9 @@ const [p2,setp2]=useState(0)
 
   const img = useRef();
   const [back,setback]=useState(gif)
-
+  const [open,setOpen]=useState(false)
+  const [result,setResult]=useState(true)
+  
 
   //   for (const key in div1Rect) {
   //     if (typeof div1Rect[key] !== "function") {
@@ -94,11 +97,14 @@ const [p2,setp2]=useState(0)
         setback(gif)
         console.log(end)
         setEnd(false)
-
+        
+        setOpen(true) 
         setTimeout(()=>{
-          alert(`Score1:${scores} ,"Scores2:${p2}`);
-          window.location.reload()
-        },1000)
+         // alert(`Score1:${scores} ,"Scores2:${p2}`);
+        
+           
+           window.location.reload()
+        },5000)
        
        
         // window.location.reload();
@@ -129,6 +135,7 @@ const [p2,setp2]=useState(0)
       //  return ()=>clearTimeout(downInterval)
       // down()
     }
+
 
     function down() {
       if(div1Ref.current){
@@ -281,8 +288,16 @@ const [chat,setChat]=useState(false)
         {/* fixed */}
      
       </div>
+
+      
+    
+      <Modal3  open={open} onClose={()=>setOpen(false)} res={result} score1={50} score2={70} />
+        
+
       <Chat chat={chat}/>
     </div>
+
     </div>
+
   );
 };
