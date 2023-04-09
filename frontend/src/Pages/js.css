@@ -1,0 +1,17 @@
+#game-main{
+    background-image: url("https://media1.giphy.com/media/U7huVmA3TKuqvznInJ/giphy.gif");
+    background-repeat: no-repeat;
+    background-size: 50%;
+    height: 400px;
+}
+
+#div5{
+    animation-timing-function: linear;
+}
+
+
+@keyframes mymove {
+    from {left: 0px;}
+    to {left: -1900px;}
+  }
+
