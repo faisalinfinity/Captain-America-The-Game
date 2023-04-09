@@ -53,13 +53,13 @@ const Homepage = () => {
           }}
         >
           <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+            className="bg-blue-400 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full"
             style={{
-              border: "1px solid blue",
+              // border: "1px solid blue",
               padding: "2%",
               width: "30%",
               margin: "0 0 0 50%",
-              backgroundColor: "transparent",
+              // backgroundColor: "",
               color: "white",
               cursor: "pointer",
             }}
@@ -68,13 +68,13 @@ const Homepage = () => {
             Create Room
           </button>
           <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+            className="bg-blue-400 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full"
             style={{
-              border: "1px solid blue",
+              // border: "1px solid blue",
               padding: "2%",
               width: "30%",
               margin: "0 0 0 20%",
-              backgroundColor: "transparent",
+              // backgroundColor: "transparent",
               color: "white",
               cursor: "pointer",
             }}
@@ -98,23 +98,24 @@ const Homepage = () => {
           alt="logo"
           width={"22%"}
         />
-        {/* <img
-          src="https://wallpapercave.com/wp/wp6008133.jpg"
-          alt="logo"
-          width={"25%"}
-        />
-        <img
-          src="https://e1.pxfuel.com/desktop-wallpaper/848/502/desktop-wallpaper-captain-america-cartoon-captain-america.jpg"
-          alt="logo"
-          width={"25%"}
-        />
-        <img
-          src="https://wallpaperaccess.com/full/1690644.jpg"
-          alt="logo"
-          width={"25%"}
-        /> */}
       </div>
     </>
+    // {/* <img
+    //   src="https://wallpapercave.com/wp/wp6008133.jpg"
+    //   alt="logo"
+    //   width={"25%"}
+    // />
+    // <img
+    //   src="https://e1.pxfuel.com/desktop-wallpaper/848/502/desktop-wallpaper-captain-america-cartoon-captain-america.jpg"
+    //   alt="logo"
+    //   width={"25%"}
+    // />
+    // <img
+    //   src="https://wallpaperaccess.com/full/1690644.jpg"
+    //   alt="logo"
+    //   width={"25%"}
+    // /> */}
+
     // <div
     //   style={{
     //     display: "flex",
