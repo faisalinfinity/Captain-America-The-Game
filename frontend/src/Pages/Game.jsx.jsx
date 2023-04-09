@@ -229,7 +229,7 @@ setInterval(()=>{
     fire1.current.src=fire;
     i=1;
   }
-  fire1.current.src=arr[i]
+  fire1.current.src=fire
   i++;
 },10000)
 }
