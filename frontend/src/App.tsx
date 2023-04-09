@@ -1,6 +1,6 @@
 
 
-import React from "react";
+import React, { useState } from "react";
 import "./App.css";
 import AllRoutes from "./Components/AllRoutes";
 import Chat from "./Components/Chat";
@@ -10,11 +10,13 @@ import { Game } from "./Pages/Game.jsx";
 
 
 
+
 const App= () => {
+  const [open,setOpen]=useState(false)
+  const [result,setResult]=useState(false)
   return (
     <>
       <AllRoutes />
-
     </>
   )
 }

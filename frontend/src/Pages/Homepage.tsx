@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../App.css";
 import shield from "../Images/shield.jpeg";
+const avengers = require("./avengers.mp3");
 
 const Homepage = () => {
   // const [isShowing, setIsShowing] = useState<boolean>(false);
+  const [audio] = useState(new Audio(avengers));
+  const [start, setStart] = useState(false);
   const navigate = useNavigate();
   let id = "";
   for (let i = 0; i < 6; i++) {
@@ -25,13 +28,13 @@ const Homepage = () => {
   //https://w0.peakpx.com/wallpaper/524/109/HD-wallpaper-captain-america-2-action-captain-america-entertainment-fight-hero-movie-new.jpg
   //https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIpfS3YxlEzXji_MisUmOTLzFQCuF-8g5--w&usqp=CAU
 
+  useEffect(() => { }, []);
   return (
     <>
       <div
-      className="bg-gradient-to-br  from-red-700 to-blue-700"
+        className="bg-gradient-to-br  from-red-700 to-blue-700"
         style={{
           maxHeight: "15%",
-          
         }}
       >
         <p style={{ color: "white" }}>Player ID: {id}</p>
@@ -48,47 +51,76 @@ const Homepage = () => {
           <span className="text-red-600 animate-pulse">er</span>
           <span className="text-red-600 animate-pulse">i</span>
           <span className="text-red-600 animate-pulse">ca</span>
+        </div>
+        {start ? (
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(2,1fr)",
+              gap: "25px",
+              padding: "5%",
+            }}
+          >
+            <button
+              className="bg-blue-400 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full"
+              style={{
+                // border: "1px solid blue",
+                padding: "2%",
+                width: "30%",
+                margin: "0 0 0 50%",
+                // backgroundColor: "",
+                color: "white",
+                cursor: "pointer",
+              }}
+              onClick={handleCreate}
+            >
+              Create Room
+            </button>
+            <button
+              className="bg-blue-400 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full"
+              style={{
+                // border: "1px solid blue",
+                padding: "2%",
+                width: "30%",
+                margin: "0 0 0 20%",
+                // backgroundColor: "transparent",
+                color: "white",
+                cursor: "pointer",
+              }}
+              onClick={handleJoin}
+            >
+              Join Room
+            </button>
+          </div>
+        ) : (
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
 
-        </div>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(2,1fr)",
-            gap: "25px",
-            padding: "5%",
-          }}
-        >
-          <button
-            className="bg-blue-400 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full"
-            style={{
-              // border: "1px solid blue",
-              padding: "2%",
-              width: "30%",
-              margin: "0 0 0 50%",
-              // backgroundColor: "",
-              color: "white",
-              cursor: "pointer",
             }}
-            onClick={handleCreate}
           >
-            Create Room
-          </button>
-          <button
-            className="bg-blue-400 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full"
-            style={{
-              // border: "1px solid blue",
-              padding: "2%",
-              width: "30%",
-              margin: "0 0 0 20%",
-              // backgroundColor: "transparent",
-              color: "white",
-              cursor: "pointer",
-            }}
-            onClick={handleJoin}
-          >
-            Join Room
-          </button>
-        </div>
+            <button
+              className="bg-blue-400 hover:bg-red-700 text-white font-bold py-2  rounded-full"
+              style={{
+                // border: "1px solid blue",
+
+                width: "10%",
+                margin: "5px",
+                // backgroundColor: "",
+                color: "white",
+                cursor: "pointer",
+              }}
+              onClick={()=>{
+                audio.play()
+                setStart(true)
+              }}
+            >
+              Start
+            </button>
+          </div>
+        )}
       </div>
 
       <div
