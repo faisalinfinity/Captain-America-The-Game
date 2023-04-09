@@ -5,6 +5,7 @@ import lost from "../Images/lost.png";
 import fire from "../Images/fire.gif";
 import capst from "../Images/capst.png";
 import jump from "../Images/jump.png";
+import cap1 from "../Images/cap-st.png"
 
 export const Game = () => {
   const div1Ref = useRef(null);
@@ -15,20 +16,22 @@ export const Game = () => {
 
   const timerref = useRef(null);
 
-  const [marginB, setMarginB] = useState("0px");
+  const [marginB, setMarginB] = useState("-70px");
   const [marginL, setMarginL] = useState(100);
 
   const [dis, setDis] = useState(0);
   const [dis1, setDis1] = useState(0);
 
-  const [imgSrc, setImgSrc] = useState(capst);
+  const [imgSrc, setImgSrc] = useState(cap1);
   const rect1 = div1Ref.current?.getBoundingClientRect();
   const rect2 = div2Ref.current?.getBoundingClientRect();
 
   const [down1, setDown] = useState(0);
 
   const img = useRef();
+const [backimg,setbackimg]=useState("")
 
+const [score, setScore] = useState(0);
 
 
   //   for (const key in div1Rect) {
@@ -72,8 +75,16 @@ export const Game = () => {
       }
     };
     //checkCollision();
+
+
+    
+
     const intervalId = setInterval(checkCollision, 16); // check collision every 16ms
-    return () => clearInterval(intervalId);
+    return () => {
+                  clearInterval(intervalId)
+                 // clearInterval(timer)
+                 };
+    
   }, []);
 
   console.log("render");
@@ -98,7 +109,7 @@ export const Game = () => {
     }
 
     function down() {
-      div1Ref.current.style.marginTop = "0px";
+      div1Ref.current.style.marginTop = "-70px";
       img.current.src = cap;
       // console.log("hello")
     }
@@ -125,13 +136,25 @@ export const Game = () => {
 
   const [anim, setAnim] = useState("");
 
+  function score1(){
+    const timer = setInterval(() => {
+      setScore((prevScore) => prevScore + 1);
+    }, 1000);
+  }
+
+  function scoreclear(){
+  
+  }
+
   function Onstart() {
+    score1()
     setImgSrc(cap);
     setAnim("mymove 10s infinite");
   }
 
   return (
     <div id="game-main">
+      <h1>Score:{score}</h1>
       <div
         style={{
           display: "flex",
@@ -139,6 +162,7 @@ export const Game = () => {
           alignItems: "center",
           border: "1px solid black",
           height: "500px",
+          width:"100%"
         }}
       >
         <div
@@ -161,7 +185,7 @@ export const Game = () => {
             animation: anim,
             position: "relative",
             height: "70px",
-            marginTop: "150px",
+            marginTop: "50px",
           }}
           ref={div2Ref}
         >
