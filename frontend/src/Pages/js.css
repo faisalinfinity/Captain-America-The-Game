@@ -2,11 +2,12 @@
 
     width:80%;
 
-    background-image: url("https://media1.giphy.com/media/U7huVmA3TKuqvznInJ/giphy.gif");
+   
 
     background-size: 50%;
     background-position-y: bottom;
     height: 400px;
+    border: 1px solid black;
 }
 
 #div5{

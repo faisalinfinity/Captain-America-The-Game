@@ -7,6 +7,13 @@ import capst from "../Images/capst.png";
 import jump from "../Images/jump.png";
 import Chat from "../Components/Chat";
 import { GlobalContext } from "../Context/GlobalContext";
+import capst1 from "../Images/cap-st.png"
+import lostimg from "../Images/lostimg.png"
+import lost1 from "../Images/imgd.png"
+import cap1 from "../Images/cap1.webp"
+import back1 from "../Images/giphy.webp"
+import gif from "../Images/gif-still.jpg"
+
 
 export const Game = () => {
   const div1Ref = useRef(null);
@@ -41,13 +48,15 @@ const [p2,setp2]=useState(0)
   const [dis, setDis] = useState(0);
   const [dis1, setDis1] = useState(0);
 
-  const [imgSrc, setImgSrc] = useState(capst);
+  const [imgSrc, setImgSrc] = useState(capst1);
   const rect1 = div1Ref.current?.getBoundingClientRect();
   const rect2 = div2Ref.current?.getBoundingClientRect();
 
   const [down1, setDown] = useState(0);
 
   const img = useRef();
+  const [back,setback]=useState(gif)
+
 
   //   for (const key in div1Rect) {
   //     if (typeof div1Rect[key] !== "function") {
@@ -75,20 +84,23 @@ const [p2,setp2]=useState(0)
       // console.log("h")
       setIsColliding(isOverlap);
       if (isOverlap) {
-        setImgSrc(
-          "https://e0.pxfuel.com/wallpapers/15/382/desktop-wallpaper-captain-america-png-gambar-ngetrend-dan-viral-baby-captain-america.jpg"
-        );
+       
         setAnim("");
         // alert("Collision detected!");
       }
       if (isOverlap) {
         //  return;
-        img.current.src = capst;
+        img.current.src = lost1;
+        setback(gif)
         console.log(end)
         setEnd(false)
+
+        setTimeout(()=>{
+          alert(`Score1:${scores} ,"Scores2:${p2}`);
+          window.location.reload()
+        },1000)
        
-        alert(`Score1:${scores} ,"Scores2:${p2}`);
-        window.location.reload()
+       
         // window.location.reload();
         // window.location.reload();
       }
@@ -149,6 +161,7 @@ const [p2,setp2]=useState(0)
   const [anim, setAnim] = useState("");
 
   function Onstart() {
+    setback(back1)
     setImgSrc(cap);
     setAnim("mymove 10s infinite");
     IncreaseScore()
@@ -191,8 +204,17 @@ const [p2,setp2]=useState(0)
       socket.off("receive_scores", handleReceiveScores);
     };
   }, [socket]);
+
+
+
+
+
+  
+
   return (
-    <div className="flex justify-between">
+    <div className="flex justify-between"
+    style={{backgroundImage:`url(${back})`,backgroundSize:"48%",height:"400px"}}
+    >
       <div id="game-main">
         <div
           style={{
