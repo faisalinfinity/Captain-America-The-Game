@@ -14,13 +14,13 @@ import Modal3 from "./Components/Modal3";
 
 const App= () => {
   const [open,setOpen]=useState(false)
-  const [result,setResult]=useState(false)
+  const [result,setResult]=useState(true)
   return (
     <>
       <Navbar />
       <AllRoutes />
       <button onClick={()=>setOpen(true)}>open</button>
-     <Modal3  open={open} onClose={()=>setOpen(false)} res={result} />
+     <Modal3  open={open} onClose={()=>setOpen(false)} res={result} score1={50} score2={70} />
     </>
   )
 }
