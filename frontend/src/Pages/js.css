@@ -1,12 +1,12 @@
 #game-main{
 
-    width:80%;
+    width:100%;
 
    
 
-    background-size: 50%;
+    background-size: 60%;
     background-position-y: bottom;
-    height: 400px;
+    height: 500px;
     border: 1px solid black;
 }
 

@@ -207,21 +207,47 @@ const [p2,setp2]=useState(0)
 
 
 
-
+const [chat,setChat]=useState(false)
 
   
-
+ //className="flex justify-between"
   return (
-    <div className="flex justify-between"
-    style={{backgroundImage:`url(${back})`,backgroundSize:"48%",height:"400px"}}
-    >
-      <div id="game-main">
+    <div>
+         <div className="h-auto w-full mx-auto p-4 rounded-t-lg bg-gray-100 shadow-lg ">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-lg font-bold text-gray-800">Player 1: <span ref={scoreRef}>0</span></h2>
+            <h2 className="text-lg font-bold text-gray-800">Player 2:{p2}</h2>
+          </div>
+          <div className="flex justify-center gap-10 mb-4">
+            <button
+              onClick={()=>{
+                Onstart()
+          
+              }}
+              className="px-4 py-2 text-lg font-bold text-white bg-red-500 rounded-lg hover:bg-red-600"
+            >
+              Start Game
+            </button>
+            <button
+              onClick={()=>{
+                setChat(!chat)
+          
+              }}
+              className="px-4 py-2 text-lg font-bold text-white bg-blue-500 rounded-lg hover:bg-blue-600"
+            >
+              Chats
+            </button>
+          </div>
+        </div>
+    <div className="flex justify-between" style={{marginTop:"0px"}}>
+      <div id="game-main" style={{backgroundImage:`url(${back})`}} >
         <div
           style={{
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            height: "500px",
+            height: "400px",
+            
           }}
         >
           <div
@@ -252,25 +278,11 @@ const [p2,setp2]=useState(0)
           </div>
         </div>
         {/* <button onClick={Onstart}>Start Game</button> */}
-        <div className="fixed h-full w-4/5 mx-auto p-4 rounded-t-lg bg-gray-100 shadow-lg">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-lg font-bold text-gray-800">Player 1: <span ref={scoreRef}>0</span></h2>
-            <h2 className="text-lg font-bold text-gray-800">Player 2:{p2}</h2>
-          </div>
-          <div className="flex justify-center mb-4">
-            <button
-              onClick={()=>{
-                Onstart()
-          
-              }}
-              className="px-4 py-2 text-lg font-bold text-white bg-red-500 rounded-lg hover:bg-red-600"
-            >
-              Start Game
-            </button>
-          </div>
-        </div>
+        {/* fixed */}
+     
       </div>
-      <Chat />
+      <Chat chat={chat}/>
+    </div>
     </div>
   );
 };
