@@ -1,14 +1,13 @@
 import React, { useContext, useState } from "react";
 import { GlobalContext } from "../Context/GlobalContext";
 import shield from "../Images/shield.jpeg";
+import { useNavigate } from "react-router-dom";
 
 const JoinRoom = () => {
   const [roomID, setRoomID] = useState<string>("");
-  const { setRoom, gameReady } = useContext(GlobalContext);
+  const { setRoom, gameReady, handleRoom, } = useContext(GlobalContext);
+  const navigate = useNavigate()
 
-  if (roomID.length == 4) {
-    setRoom(roomID);
-  }
 
   return (
     <>
@@ -34,7 +33,7 @@ const JoinRoom = () => {
             onChange={(e) => setRoomID(e.target.value)}
             placeholder="enter room-ID"
           />
-          <button className="bg-blue-400 hover:bg-red-700 text-white font-bold py-1 px-2 rounded-full">
+          <button onClick={() => handleRoom(roomID)} className="bg-blue-400 hover:bg-red-700 text-white w-40 ">
             Join Room
           </button>
           <br />
@@ -42,6 +41,7 @@ const JoinRoom = () => {
           {gameReady ? (
             <>
               <button
+                onClick={() => navigate("/game")}
                 style={{ width: "100%" }}
                 className="bg-blue-400 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full"
               >

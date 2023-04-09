@@ -10,12 +10,13 @@ interface GlobalType {
   IncreaseScore: () => void;
   setRoom: React.Dispatch<React.SetStateAction<string>>;
   p2Scores: number;
-  handleRoom: () => void;
+  handleRoom: (data: string) => void;
   messages: Data[];
   sendMessage: () => void;
   setScores: React.Dispatch<React.SetStateAction<number>>;
-  sendScores:()=>void;
-  socket: Socket<ServerToClientEvents, ClientToServerEvents>
+  sendScores: () => void;
+  socket: Socket<ServerToClientEvents, ClientToServerEvents>;
+  room: string
 }
 
 interface ServerToClientEvents {
@@ -56,12 +57,13 @@ export const GlobalContext = createContext<GlobalType>({
   IncreaseScore: () => { },
   setRoom: () => { },
   p2Scores: 0,
-  handleRoom: () => { },
+  handleRoom: (data: string) => { },
   messages: [],
   sendMessage: () => { },
-  setScores:()=>{},
-  sendScores:()=>{},
-  socket:socket
+  setScores: () => { },
+  sendScores: () => { },
+  socket: socket,
+  room: ""
 });
 
 
@@ -131,8 +133,8 @@ const GlobalContextProvider: React.FC<React.PropsWithChildren<{}>> = ({
     sendScores();
   }, [scores]);
 
-  const handleRoom = () => {
-    socket.emit("join_room", room);
+  const handleRoom = (room1: string) => {
+    socket.emit("join_room", room1);
   };
 
   const IncreaseScore = () => {
@@ -171,7 +173,8 @@ const GlobalContextProvider: React.FC<React.PropsWithChildren<{}>> = ({
         messages,
         sendMessage,
         sendScores,
-        socket
+        socket,
+        room
       }}
     >
       {children}

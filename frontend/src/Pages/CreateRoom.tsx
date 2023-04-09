@@ -1,20 +1,24 @@
 import React, { useState, useContext, useEffect } from "react";
 import { GlobalContext } from "../Context/GlobalContext";
 import shield from "../Images/shield.jpeg";
+import { useNavigate } from "react-router-dom";
 
 const Room = () => {
-  const { gameReady, setRoom } = useContext(GlobalContext);
+  const { gameReady, setRoom, room, handleRoom } = useContext(GlobalContext);
   // const [ready, setReady] = useState<boolean>(false);
-  let roomID = "";
-  for (let i = 0; i < 4; i++) {
-    roomID += Math.floor(Math.random() * 9);
-  }
+  const navigate = useNavigate()
 
   useEffect(() => {
     // if (gameReady) {
     //   setReady(true);
     // }
+
+    let roomID = "";
+    for (let i = 0; i < 4; i++) {
+      roomID += Math.floor(Math.random() * 9);
+    }
     setRoom(roomID);
+    handleRoom(roomID)
   }, []);
 
   return (
@@ -40,13 +44,15 @@ const Room = () => {
             <u>Room Details</u>
           </h3>
           <p>
-            Room ID : <b>{roomID}</b>
+            Room ID : <b>{room}</b>
           </p>
         </div>
         <div>
-          {gameReady ? (
+          <br />
+          {!gameReady ? (
             <button
-              style={{ width: "20%" }}
+              onClick={() => navigate("/game")}
+              style={{ width: "30%" }}
               className="bg-blue-400 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full"
             >
               Start Game

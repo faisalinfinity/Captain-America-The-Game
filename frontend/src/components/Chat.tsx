@@ -12,6 +12,7 @@ const Chat = () => {
     handleRoom,
     messages,
     sendMessage,
+    room
   } = React.useContext(GlobalContext);
   return (
     <div className="flex flex-col items-center justify-center w-screen min-h-screen bg-gray-100 text-gray-800 p-10">
@@ -31,7 +32,7 @@ const Chat = () => {
         placeholder="Enter Random Number"
         onChange={(e) => setRoom(e.target.value)}
       />
-      <button onClick={handleRoom}>Join Room</button>
+      <button onClick={()=>handleRoom(room)}>Join Room</button>
       <div className="flex flex-col flex-grow w-full max-w-xl bg-white shadow-xl rounded-lg overflow-hidden">
         <div className="flex flex-col flex-grow h-0 p-4 overflow-auto">
           {messages?.map((el) => {
