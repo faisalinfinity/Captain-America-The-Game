@@ -16,6 +16,7 @@ import gif from "../Images/gif-still.jpg"
 
 
 export const Game = () => {
+  const [chat,setChat]=useState(false)
   const div1Ref = useRef(null);
   const div2Ref = useRef(null);
   const [end,setEnd]=useState(true)
@@ -42,7 +43,7 @@ export const Game = () => {
 const [p2,setp2]=useState(0)
   const timerref = useRef(null);
 
-  const [marginB, setMarginB] = useState("0px");
+  const [marginB, setMarginB] = useState(chat ? "100px" : "200px");
   const [marginL, setMarginL] = useState(100);
 
   const [dis, setDis] = useState(0);
@@ -132,7 +133,8 @@ const [p2,setp2]=useState(0)
 
     function down() {
       if(div1Ref.current){
-        div1Ref.current.style.marginTop = "0px";
+       // console.log(chat)
+        div1Ref.current.style.marginTop =chat ? "100px" : "200px";
         img.current.src = cap;
       }
   
@@ -207,7 +209,7 @@ const [p2,setp2]=useState(0)
 
 
 
-const [chat,setChat]=useState(false)
+
 
   
  //className="flex justify-between"
@@ -240,7 +242,7 @@ const [chat,setChat]=useState(false)
           </div>
         </div>
     <div className="flex justify-between" style={{marginTop:"0px"}}>
-      <div id="game-main" style={{backgroundImage:`url(${back})`}} >
+      <div id="game-main" style={{backgroundImage:`url(${back})`,height:chat ? "400px" : "500px"}}>
         <div
           style={{
             display: "flex",
@@ -252,11 +254,11 @@ const [chat,setChat]=useState(false)
         >
           <div
             style={{
-              width: "10%",
+              width: "8%",
               height: "100px",
               marginLeft: `${marginL}px`,
               marginTop: marginB,
-              border:"1px solid"
+              border:"0px solid"
             }}
             id="div5"
             ref={div1Ref}
@@ -265,16 +267,16 @@ const [chat,setChat]=useState(false)
           </div>
           <div
             style={{
-              width: "7%",
+              width: "5%",
               animation: anim,
               position: "relative",
               height: "70px",
-              marginTop: "150px",
-              border:"1px solid"
+              marginTop: chat ?  "180px" : "260px",
+              border:"0px solid"
             }}
             ref={div2Ref}
           >
-            <img width="100%" src={fire} alt="" />
+            <img width="120%" src={fire} alt="" />
           </div>
         </div>
         {/* <button onClick={Onstart}>Start Game</button> */}
