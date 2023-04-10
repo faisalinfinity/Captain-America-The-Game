@@ -1,23 +1,23 @@
-import React, { createContext } from "react";
+import React, { createContext, useRef } from "react";
 import { useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
-
+import * as SocketIOClient from 'socket.io-client';
 interface GlobalType {
   value: string;
   setValue: React.Dispatch<React.SetStateAction<string>>;
   gameReady: boolean;
   scores: number;
   IncreaseScore: () => void;
-  setRoom: React.Dispatch<React.SetStateAction<string|null>>;
+  setRoom: React.Dispatch<React.SetStateAction<string | null>>;
   p2Scores: number;
   handleRoom: (data: string) => void;
   messages: Data[];
   sendMessage: () => void;
   setScores: React.Dispatch<React.SetStateAction<number>>;
-  sendScores: (data:number) => void;
-  socket: Socket<ServerToClientEvents, ClientToServerEvents>;
-  room: string|null,
-  setp2Scores:React.Dispatch<React.SetStateAction<number>>
+  sendScores: (data: number) => void;
+  socketRef: any;
+  room: string | null,
+  setp2Scores: React.Dispatch<React.SetStateAction<number>>
 }
 
 interface ServerToClientEvents {
@@ -33,22 +33,20 @@ interface ServerToClientEvents {
 
 interface Data {
   message: string;
-  room: string |null;
+  room: string | null;
   type?: String;
 }
 export interface Scores {
-  scores: number;
-  room: string|null;
+  scores: any;
+  room: string | null;
 }
 interface ClientToServerEvents {
   send_message: (data: Data) => void;
   receive_message: (data: Data) => void;
-  join_room: (message: string|null) => void;
+  join_room: (message: string | null) => void;
   send_scores: (data: Scores) => void;
 }
-const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
-  "http://localhost:8080"
-);
+
 
 export const GlobalContext = createContext<GlobalType>({
   value: "",
@@ -62,10 +60,10 @@ export const GlobalContext = createContext<GlobalType>({
   messages: [],
   sendMessage: () => { },
   setScores: () => { },
-  sendScores: (data:number) => { },
-  socket: socket,
+  sendScores: (data: number) => { },
+  socketRef: null,
   room: "",
-  setp2Scores:()=>{}
+  setp2Scores: () => { }
 });
 
 
@@ -74,25 +72,37 @@ const GlobalContextProvider: React.FC<React.PropsWithChildren<{}>> = ({
 }: React.PropsWithChildren<{}>) => {
 
   const [value, setValue] = useState<string>("");
-  let [room, setRoom] = useState<string|null>("");
+  let [room, setRoom] = useState<string | null>("");
   const [messages, setMessages] = useState<Data[]>([]);
   const [scores, setScores] = useState<number>(0);
   const [p2Scores, setp2Scores] = useState<number>(0);
   const [gameReady, setgameReady] = useState<boolean>(false);
-
+  let socketRef: any = useRef()
+  useEffect(() => {
+    socketRef.current = io(
+      "wss://captainamerica.onrender.com"
+    );
+  }, [])
   const handleReceiveMessage = (data: Data) => {
     data.type = "r";
     setMessages((prevMessages) => [...prevMessages, { ...data }]);
   };
 
   const sendMessage = () => {
+    if (room == "") {
+      room = localStorage.getItem("room")
+      handleRoom(room)
+    }
     if (value !== "") {
       if (room !== "") {
         setMessages((prevMessages) => [
           ...prevMessages,
           { message: value, room },
         ]);
-        socket.emit("send_message", { message: value, room });
+        if (socketRef.current) {
+          socketRef.current.emit("send_message", { message: value, room });
+        }
+
       } else {
         alert("Enter Room No First");
       }
@@ -102,48 +112,64 @@ const GlobalContextProvider: React.FC<React.PropsWithChildren<{}>> = ({
 
   const handleReceiveScores = (data: Scores) => {
     setp2Scores(data.scores);
+    if (data.scores !== 0) {
+      localStorage.setItem("score2", data.scores);
+    }
   };
 
-  const sendScores = (scores:number) => {
-    if(room==""){
-      room=localStorage.getItem("room")
-     }
-    socket.emit("send_scores", { scores, room });
+  const sendScores = (scores: number) => {
+    if (room == "") {
+      room = localStorage.getItem("room")
+      handleRoom(room)
+    }
+    if (socketRef.current) {
+      socketRef.current.emit("send_scores", { scores, room });
+    }
+
   };
 
   useEffect(() => {
-    socket.on("waitingForPlayer", () => {
-      console.log("Waiting for other player to join...");
-      setgameReady(false)
-    });
-
-    socket.on("gameReady", () => {
-      console.log("Both players are ready to start the game!");
-      setgameReady(true);
-    });
-
-    socket.on("playerDisconnected", () => {
-      console.log("Other player disconnected");
-      setgameReady(false)
-      // Show a message to the remaining player that the other player has disconnected
-    });
-
-    if (socket) {
-      socket.on("disconnect", () => {
-        console.log("You disconnected")
+    if (socketRef.current) {
+      socketRef.current.on("waitingForPlayer", () => {
+        console.log("Waiting for other player to join...");
+        setgameReady(false)
       });
-    }
-  }, [socket]);
 
-  useEffect(() => {
-    sendScores(scores);
-  }, [scores]);
+      socketRef.current.on("gameReady", () => {
+        console.log("Both players are ready to start the game!");
+        setgameReady(true);
+      });
 
-  const handleRoom = (room1: string|null) => {
-    if(room1==""){
-     room1=localStorage.getItem("room")
+      socketRef.current.on("playerDisconnected", () => {
+        console.log("Other player disconnected");
+        setgameReady(false)
+        // Show a message to the remaining player that the other player has disconnected
+      });
+
+      if (socketRef.current) {
+        socketRef.current.on("disconnect", () => {
+          console.log("You disconnected")
+        });
+      }
     }
-    socket.emit("join_room", room1);
+
+
+
+
+  }, [socketRef.current]);
+
+  // useEffect(() => {
+  //   sendScores(scores);
+  // }, [scores]);
+
+  const handleRoom = (room1: string | null) => {
+    if (room1 == "") {
+      room1 = localStorage.getItem("room")
+    }
+    if (socketRef.current) {
+      socketRef.current.emit("join_room", room1);
+    }
+
   };
 
   const IncreaseScore = () => {
@@ -153,18 +179,27 @@ const GlobalContextProvider: React.FC<React.PropsWithChildren<{}>> = ({
   };
 
   useEffect(() => {
-    socket.on("receive_message", handleReceiveMessage);
-    return () => {
-      socket.off("receive_message", handleReceiveMessage);
-    };
-  }, [socket]);
+    if (socketRef.current) {
+      socketRef.current.on("receive_message", handleReceiveMessage);
+      return () => {
+        if (socketRef.current) {
+          socketRef.current.off("receive_message", handleReceiveMessage);
+        }
 
-  // useEffect(() => {
-  //   socket.on("receive_scores", handleReceiveScores);
-  //   return () => {
-  //     socket.off("receive_scores", handleReceiveScores);
-  //   };
-  // }, [socket]);
+      };
+    }
+
+  }, [socketRef.current, messages]);
+
+  useEffect(() => {
+    if (socketRef.current) {
+      socketRef.current.on("receive_scores", handleReceiveScores);
+      return () => {
+        socketRef.current.off("receive_scores", handleReceiveScores);
+      };
+    }
+
+  }, [socketRef.current]);
 
 
   return (
@@ -182,7 +217,7 @@ const GlobalContextProvider: React.FC<React.PropsWithChildren<{}>> = ({
         messages,
         sendMessage,
         sendScores,
-        socket,
+        socketRef,
         room,
         setp2Scores
       }}

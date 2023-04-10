@@ -33,7 +33,10 @@ const JoinRoom = () => {
             onChange={(e) => setRoomID(e.target.value)}
             placeholder="enter room-ID"
           />
-          <button onClick={() => handleRoom(roomID)} className="bg-blue-400 hover:bg-red-700 text-white w-40 ">
+          <button onClick={() => {
+            handleRoom(roomID)
+            localStorage.setItem("room",roomID)
+          }} className="bg-blue-400 hover:bg-red-700 text-white w-40 ">
             Join Room
           </button>
           <br />

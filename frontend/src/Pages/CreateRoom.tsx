@@ -13,13 +13,17 @@ const Room = () => {
     //   setReady(true);
     // }
 
-    let roomID = "";
-    for (let i = 0; i < 4; i++) {
-      roomID += Math.floor(Math.random() * 9);
+    if(!room){
+
+      let roomID = "";
+      for (let i = 0; i < 4; i++) {
+        roomID += Math.floor(Math.random() * 9);
+      }
+      localStorage.setItem("room",roomID)
+      setRoom(roomID);
+      handleRoom(roomID)
     }
-    localStorage.setItem("room",roomID)
-    setRoom(roomID);
-    handleRoom(roomID)
+
   }, []);
 
   return (
