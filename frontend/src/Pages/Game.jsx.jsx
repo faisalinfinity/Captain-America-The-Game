@@ -23,7 +23,6 @@ export const Game = () => {
   const [isColliding, setIsColliding] = useState(false);
   const scoreRef=useRef()
   let id;
-  const [over, setOver] = useState(false);
   const {
     value,
     setValue,
@@ -32,6 +31,7 @@ export const Game = () => {
     setScores,
     setp2Scores,
     setRoom,
+    setOver,
     p2Scores,
     handleRoom,
     messages,
@@ -86,16 +86,7 @@ const [p2,setp2]=useState(0)
         setback(gif)
         console.log(end)
         setEnd(false)
-
-     
         setOver(true)
-        setTimeout(()=>{
-          window.location.reload()
-        },10000)
-       
-       
-        // window.location.reload();
-        // window.location.reload();
       }
     };
     //checkCollision();
@@ -184,9 +175,6 @@ const [p2,setp2]=useState(0)
     }
   };
 
-  if (over) {
-    return <ScoreCard />;
-  }
   return (
     <div>
       <div

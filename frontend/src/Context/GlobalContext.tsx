@@ -17,7 +17,9 @@ interface GlobalType {
   sendScores: (data: number) => void;
   socketRef: any;
   room: string | null,
-  setp2Scores: React.Dispatch<React.SetStateAction<number>>
+  setp2Scores: React.Dispatch<React.SetStateAction<number>>,
+  over:boolean,
+  setOver:React.Dispatch<React.SetStateAction<boolean>>
 }
 
 interface ServerToClientEvents {
@@ -63,7 +65,9 @@ export const GlobalContext = createContext<GlobalType>({
   sendScores: (data: number) => { },
   socketRef: null,
   room: "",
-  setp2Scores: () => { }
+  setp2Scores: () => { },
+  over:false,
+  setOver:()=>{}
 });
 
 
@@ -77,6 +81,7 @@ const GlobalContextProvider: React.FC<React.PropsWithChildren<{}>> = ({
   const [scores, setScores] = useState<number>(0);
   const [p2Scores, setp2Scores] = useState<number>(0);
   const [gameReady, setgameReady] = useState<boolean>(false);
+  const [over,setOver]=useState<boolean>(false)
   let socketRef: any = useRef()
   useEffect(() => {
     socketRef.current = io(
@@ -219,7 +224,9 @@ const GlobalContextProvider: React.FC<React.PropsWithChildren<{}>> = ({
         sendScores,
         socketRef,
         room,
-        setp2Scores
+        setp2Scores,
+        over,
+        setOver
       }}
     >
       {children}
