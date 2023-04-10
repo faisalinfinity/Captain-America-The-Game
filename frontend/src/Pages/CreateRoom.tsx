@@ -13,13 +13,13 @@ const Room = () => {
     //   setReady(true);
     // }
 
-    if(!room){
+    if (!room) {
 
       let roomID = "";
       for (let i = 0; i < 4; i++) {
         roomID += Math.floor(Math.random() * 9);
       }
-      localStorage.setItem("room",roomID)
+      localStorage.setItem("room", roomID)
       setRoom(roomID);
       handleRoom(roomID)
     }
@@ -60,14 +60,14 @@ const Room = () => {
               style={{ width: "30%" }}
               className="bg-blue-400 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full"
             >
-              Start Game
+              Start Game  
             </button>
           ) : (
             <>
               <br />
-              <h2>Ask other player to join with this room-ID</h2>
+              <h2>Ask other player to join with this room-Id</h2>
               <br />
-              <h2>Waiting for players to join...</h2>
+              <h2>Waiting for other player to join...</h2>
             </>
           )}
         </div>

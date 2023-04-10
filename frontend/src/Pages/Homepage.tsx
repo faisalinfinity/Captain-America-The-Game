@@ -8,6 +8,7 @@ const Homepage = () => {
   // const [isShowing, setIsShowing] = useState<boolean>(false);
   const [audio] = useState(new Audio(avengers));
   const [start, setStart] = useState(false);
+  const [mute, setMute] = useState(false);
   const navigate = useNavigate();
   let id = "";
   for (let i = 0; i < 6; i++) {
@@ -22,22 +23,41 @@ const Homepage = () => {
     navigate("/create");
   };
 
-  //https://wallpapercave.com/wp/wp6008133.jpg
-  //https://e1.pxfuel.com/desktop-wallpaper/848/502/desktop-wallpaper-captain-america-cartoon-captain-america.jpg
-  //https://wallpaperaccess.com/full/1690644.jpg
-  //https://w0.peakpx.com/wallpaper/524/109/HD-wallpaper-captain-america-2-action-captain-america-entertainment-fight-hero-movie-new.jpg
-  //https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIpfS3YxlEzXji_MisUmOTLzFQCuF-8g5--w&usqp=CAU
+  useEffect(() => {
+    if (mute) {
+      audio.pause();
+    } else {
+      audio.play();
+    }
+  }, [mute]);
 
-  useEffect(() => { }, []);
+  useEffect(()=>{
+    localStorage.setItem("single","false")
+  },[])
   return (
     <>
       <div
-        className="bg-gradient-to-br  from-red-700 to-blue-700"
+        // className="bg-gradient-to-br  from-red-700 to-blue-700"
         style={{
-          maxHeight: "15%",
+          // display: "flex",
+          backgroundImage: `url(https://i.postimg.cc/qMvBDyYg/image.png)`,
+          backgroundSize: "cover",
+          opacity: 0.9,
         }}
       >
-        <p style={{ color: "white" }}>Player ID: {id}</p>
+        <div style={{ width: "100%" }} className="flex w-full justify-betwwen">
+          <img
+            onClick={() => setMute(!mute)}
+            style={{ width: "1%", margin: "5px" }}
+            src={
+              mute
+                ? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3spn1mMKAqJtg2klnEtjjEAbWEvMFALgJIvEabQe8Eg&usqp=CAU&ec=48600113"
+                : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDC0uRc1figBaRvLDZOvtbIqLnp0KkxtVxN_t8Nm3HIg&usqp=CAU&ec=48600113"
+            }
+            alt="Hello"
+          />
+        </div>
+
         <div className="text-4xl text-center font-bold">
           <span className="text-blue-600 animate-pulse">C</span>
           <span className="text-blue-600 animate-pulse">a</span>
@@ -51,25 +71,28 @@ const Homepage = () => {
           <span className="text-red-600 animate-pulse">er</span>
           <span className="text-red-600 animate-pulse">i</span>
           <span className="text-red-600 animate-pulse">ca</span>
+          <br />
+          <p className="text-xl text-center text-white ">
+            A Multiplayer Game with Realtime Chat and Scores
+          </p>
         </div>
+        <br />
+        <br />
         {start ? (
           <div
             style={{
+              margin: "auto",
+              width: "50%",
               display: "grid",
-              gridTemplateColumns: "repeat(2,1fr)",
-              gap: "25px",
-              padding: "5%",
+              gridTemplateColumns: "repeat(3,1fr)",
+              gap: "20%",
+              padding: "1%",
             }}
           >
             <button
-              className="bg-blue-400 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full"
+              className="bg-black text-white hover:bg-white hover:text-black font-bold py-2 px-4 rounded-full"
               style={{
-                // border: "1px solid blue",
                 padding: "2%",
-                width: "30%",
-                margin: "0 0 0 50%",
-                // backgroundColor: "",
-                color: "white",
                 cursor: "pointer",
               }}
               onClick={handleCreate}
@@ -77,19 +100,27 @@ const Homepage = () => {
               Create Room
             </button>
             <button
-              className="bg-blue-400 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full"
+              className="bg-black text-white hover:bg-white hover:text-black font-bold py-2 px-4 rounded-full"
               style={{
-                // border: "1px solid blue",
                 padding: "2%",
-                width: "30%",
-                margin: "0 0 0 20%",
-                // backgroundColor: "transparent",
-                color: "white",
                 cursor: "pointer",
               }}
               onClick={handleJoin}
             >
               Join Room
+            </button>
+            <button
+              className="bg-black text-white hover:bg-white hover:text-black font-bold py-2 px-4 rounded-full"
+              style={{
+                padding: "2%",
+                cursor: "pointer",
+              }}
+              onClick={() =>{
+                navigate("/game")
+                localStorage.setItem("single","true")
+              }}
+            >
+              Single Player
             </button>
           </div>
         ) : (
@@ -98,23 +129,19 @@ const Homepage = () => {
               width: "100%",
               display: "flex",
               justifyContent: "center",
-
             }}
           >
             <button
-              className="bg-blue-400 hover:bg-red-700 text-white font-bold py-2  rounded-full"
+              className="bg-black text-white hover:bg-white hover:text-black p-3 rounded-full"
               style={{
-                // border: "1px solid blue",
 
                 width: "10%",
                 margin: "5px",
-                // backgroundColor: "",
-                color: "white",
                 cursor: "pointer",
               }}
-              onClick={()=>{
-                audio.play()
-                setStart(true)
+              onClick={() => {
+                audio.play();
+                setStart(true);
               }}
             >
               Start
