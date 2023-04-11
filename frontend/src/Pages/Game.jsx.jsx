@@ -104,12 +104,16 @@ const [p2,setp2]=useState(0)
         div1Ref.current.style.marginTop = "-290px";
         img.current.src = jump;
       }
-    } else {
-      // setMarginB("0px")
+    } 
+
+    if(!keys[38]){
       const downInterval = setTimeout(down, 1000);
-      //  return ()=>clearTimeout(downInterval)
-      // down()
     }
+      // setMarginB("0px")
+      
+      //  return ()=>clearTimeout(downInterval)
+    // down()
+    
 
     function down() {
       if (div1Ref.current) {
@@ -124,7 +128,6 @@ const [p2,setp2]=useState(0)
 
   document.addEventListener("keydown", function (event) {
     keys[event.keyCode] = true;
-    //setDown(down1+1)
     loop();
   });
 

@@ -140,7 +140,10 @@ const Homepage = () => {
                 cursor: "pointer",
               }}
               onClick={() => {
-                audio.play();
+               
+                if(!mute){
+                  audio.play();
+                }
                 setStart(true);
               }}
             >
